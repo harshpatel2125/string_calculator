@@ -9,7 +9,14 @@ class StringCalculator {
 			numbers = numberPart;
 		}
 
-		return numbers.split(delimiter).reduce((sum, n) => sum + parseInt(n, 10), 0);
+		const numList = numbers.split(delimiter).map((n) => parseInt(n.trim(), 10));
+		const negatives = numList.filter((n) => n < 0);
+
+		if (negatives.length) {
+			throw new Error(`Negative numbers not allowed: ${negatives.join(", ")}`);
+		}
+
+		return numList.reduce((sum, n) => sum + (isNaN(n) ? 0 : n), 0);
 	}
 }
 
